@@ -14,6 +14,7 @@ export type ButtonProps = {
   margin?: number;
   width?: DimensionValue; // FIXED
   height?: DimensionValue; // FIXED
+  marginTop?: number;
 };
 
 export type FontWeight =

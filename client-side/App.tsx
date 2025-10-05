@@ -7,6 +7,7 @@ import Welcome from "./app/auth/Welcome";
 import PhoneNumberPage from "./app/auth/PhoneNumberPage";
 import VerifyPhoneNumber from "./app/auth/VerifyPhoneNumber";
 import VerifyEmailAdress from "./app/auth/VerifyEmailAdress";
+import PersonalInformation from "./app/auth/PersonalInformation";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,13 +19,17 @@ export default function App() {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="GetStarted"
+        initialRouteName="PersonalInformation"
       >
         <Stack.Screen name="GetStarted" component={GetStartedScreen} />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="PhoneNumber" component={PhoneNumberPage} />
         <Stack.Screen name="VerifyPhoneNumber" component={VerifyPhoneNumber} />
         <Stack.Screen name="VerifyEmailAddress" component={VerifyEmailAdress} />
+        <Stack.Screen
+          name="PersonalInformation"
+          component={PersonalInformation}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

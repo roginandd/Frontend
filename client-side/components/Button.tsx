@@ -7,12 +7,14 @@ export const Button = ({
   title,
   onPress,
   showArrow = false,
+  disabled = false,
   ...props
-}: ButtonProps & { showArrow?: boolean }) => {
+}: ButtonProps & { showArrow?: boolean; disabled?: boolean }) => {
   return (
     <Pressable
       onPress={onPress}
       {...props}
+      disabled={disabled}
       style={{
         backgroundColor: props.backgroundColor,
         padding: props.padding,
@@ -31,6 +33,8 @@ export const Button = ({
         flexDirection: "row",
         gap: showArrow ? 10 : 0, // add gap only if arrow exists
         alignItems: showArrow ? "center" : "center",
+        opacity: disabled ? 0.5 : 1,
+        marginTop: props.marginTop,
       }}
     >
       <Text
