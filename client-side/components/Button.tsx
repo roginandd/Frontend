@@ -1,7 +1,14 @@
 import { Pressable, Text } from "react-native";
-import { ButtonProps } from "../types/ButtonTypes";
+import { ButtonProps } from "../types/types";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import CreateAccountArrow from "./svg/CreateAccountArrow";
 
-export const Button = ({ title, onPress, ...props }: ButtonProps) => {
+export const Button = ({
+  title,
+  onPress,
+  showArrow = false,
+  ...props
+}: ButtonProps & { showArrow?: boolean }) => {
   return (
     <Pressable
       onPress={onPress}
@@ -16,17 +23,26 @@ export const Button = ({ title, onPress, ...props }: ButtonProps) => {
         borderWidth: props.borderWidth,
         borderRadius: props.borderRadius,
         justifyContent: "center",
-        alignItems: "center",
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+        flexDirection: "row",
+        gap: showArrow ? 10 : 0, // add gap only if arrow exists
+        alignItems: showArrow ? "center" : "center",
       }}
     >
-      <Text style={{ color: props.textColor, fontWeight: props.fontWeight }}>
+      <Text
+        style={{
+          color: props.textColor,
+          fontWeight: props.fontWeight,
+          fontSize: props.fontSize,
+        }}
+      >
         {title}
       </Text>
+      {showArrow && <CreateAccountArrow />}
     </Pressable>
   );
 };
