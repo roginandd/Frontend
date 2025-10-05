@@ -17,7 +17,6 @@ const VerifyEmailAdress: React.FC = () => {
 
   const handleInput = (value: string): void => {
     setEmail(value);
-    console.log(email);
   };
 
   return (
