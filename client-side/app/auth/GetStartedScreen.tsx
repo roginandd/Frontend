@@ -1,8 +1,11 @@
 import { Text, View, Image, Dimensions } from "react-native";
 import { Button } from "../../components/Button";
+import { useNavigation } from "@react-navigation/native";
+import StandingMan from "@/components/svg/StandingMan";
 
 const GetStartedScreen = () => {
   const { width, height } = Dimensions.get("window");
+  const navigation = useNavigation();
 
   return (
     <View
@@ -15,17 +18,10 @@ const GetStartedScreen = () => {
       <View
         style={{
           alignItems: "center",
-          marginTop: 50,
+          marginTop: 30,
         }}
       >
-        <Image
-          source={require("../../assets/images/standing_man.png")}
-          style={{
-            width: width * 0.9,
-            height: height * 0.4,
-          }}
-          resizeMode="contain"
-        />
+        <StandingMan />
         <View
           style={{
             alignItems: "center",
@@ -64,13 +60,15 @@ const GetStartedScreen = () => {
 
           <Button
             title="Get Started"
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate("Welcome" as never);
+            }}
             backgroundColor="#fff"
             textColor="#545EE1"
             borderColor="#fff"
             borderWidth={1}
             borderRadius={30}
-            fontSize={16}
+            fontSize={20}
             fontWeight="bold"
             padding={10}
             margin={10}
