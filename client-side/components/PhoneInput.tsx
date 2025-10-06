@@ -2,9 +2,20 @@ import React, { useState } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 
-const PhoneInput = () => {
+interface PhoneInputProps {
+  onPhoneChange?: (phone: string) => void;
+}
+
+const PhoneInput: React.FC<PhoneInputProps> = ({ onPhoneChange }) => {
   const [countryCode, setCountryCode] = useState("+63");
   const [phone, setPhone] = useState("");
+
+  const handlePhoneChange = (text: string) => {
+    setPhone(text);
+    if (onPhoneChange) {
+      onPhoneChange(text);
+    }
+  };
 
   return (
     <View style={styles.row}>
@@ -25,7 +36,7 @@ const PhoneInput = () => {
         style={{
           fontSize: 20,
           fontWeight: "400",
-          backgroundColor: "#FFFFf",
+          backgroundColor: "#FFFFFF",
           padding: 10,
           paddingHorizontal: 20,
           borderColor: "#545EE1",
@@ -35,9 +46,9 @@ const PhoneInput = () => {
           width: 280,
         }}
         placeholder="000 00000 0000"
-        placeholderTextColor="#999" // optional lighter color for hint
+        placeholderTextColor="#999"
         value={phone}
-        onChangeText={setPhone}
+        onChangeText={handlePhoneChange}
         keyboardType="phone-pad"
       />
     </View>

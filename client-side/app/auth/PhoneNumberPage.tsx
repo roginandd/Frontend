@@ -3,9 +3,12 @@ import PhoneInput from "@/components/PhoneInput";
 import AuthLeftButton from "@/components/svg/AuthLeftButton";
 import { useNavigation } from "expo-router";
 import { View, Text } from "react-native";
+import { useState } from "react";
 
 const PhoneNumberPage = () => {
   const navigation = useNavigation();
+  const [phoneNumber, setPhoneNumber] = useState("");
+
   return (
     <View
       style={{
@@ -34,7 +37,7 @@ const PhoneNumberPage = () => {
       </View>
 
       <View style={{ marginTop: 40 }}>
-        <PhoneInput />
+        <PhoneInput onPhoneChange={setPhoneNumber} />
       </View>
 
       <View style={{ marginTop: 55 }}>
@@ -53,6 +56,7 @@ const PhoneNumberPage = () => {
           margin={0}
           fontWeight="bold"
           fontSize={18}
+          disabled={!phoneNumber.trim()}
         />
       </View>
     </View>

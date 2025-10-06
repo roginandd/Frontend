@@ -64,6 +64,7 @@ const VerifyEmailAdress: React.FC = () => {
           title="Continue"
           onPress={() => {
             handleInput(email);
+            navigation.navigate("StudentIdVerify" as never);
           }}
           backgroundColor="#545EE1"
           textColor="#fff"
@@ -75,6 +76,7 @@ const VerifyEmailAdress: React.FC = () => {
           margin={0}
           fontWeight="bold"
           fontSize={18}
+          disabled={!email}
         />
       </View>
     </View>

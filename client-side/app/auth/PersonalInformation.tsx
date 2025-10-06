@@ -232,7 +232,9 @@ const PersonalInformation = () => {
             </View>
             <Button
               title="Continue"
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate("StudentIdVerify" as never);
+              }}
               backgroundColor="#545EE1"
               textColor="#fff"
               borderColor="#545EE1"

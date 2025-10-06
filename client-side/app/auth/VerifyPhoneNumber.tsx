@@ -142,6 +142,7 @@ const PhoneVerificationPage: React.FC = () => {
           margin={0}
           fontWeight="bold"
           fontSize={18}
+          disabled={code.some((digit) => !digit)}
         />
       </View>
     </View>
