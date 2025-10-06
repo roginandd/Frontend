@@ -9,6 +9,7 @@ import VerifyPhoneNumber from "./app/auth/VerifyPhoneNumber";
 import VerifyEmailAdress from "./app/auth/VerifyEmailAdress";
 import PersonalInformation from "./app/auth/PersonalInformation";
 import StudentIdVerify from "./app/auth/StudentIdVerify";
+import InsuranceVerification from "./app/auth/InsuranceVerification";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +21,7 @@ export default function App() {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="GetStarted"
+        initialRouteName="InsuranceVerification"
       >
         <Stack.Screen name="GetStarted" component={GetStartedScreen} />
         <Stack.Screen name="Welcome" component={Welcome} />
@@ -32,6 +33,10 @@ export default function App() {
           component={PersonalInformation}
         />
         <Stack.Screen name="StudentIdVerify" component={StudentIdVerify} />
+        <Stack.Screen
+          name="InsuranceVerification"
+          component={InsuranceVerification}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
