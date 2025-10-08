@@ -4,12 +4,22 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import GetStartedScreen from "./app/auth/GetStartedScreen";
 import Welcome from "./app/auth/Welcome";
-import PhoneNumberPage from "./app/auth/PhoneNumberPage";
-import VerifyPhoneNumber from "./app/auth/VerifyPhoneNumber";
-import VerifyEmailAdress from "./app/auth/VerifyEmailAdress";
-import PersonalInformation from "./app/auth/PersonalInformation";
-import StudentIdVerify from "./app/auth/StudentIdVerify";
-import InsuranceVerification from "./app/auth/InsuranceVerification";
+import PhoneNumberPage from "./app/auth/register-screen/PhoneNumberPage";
+import VerifyPhoneNumber from "./app/auth/register-screen/VerifyPhoneNumber";
+import VerifyEmailAdress from "./app/auth/register-screen/VerifyEmailAdress";
+import PersonalInformation from "./app/auth/register-screen/PersonalInformation";
+import StudentIdVerify from "./app/auth/register-screen/StudentIdVerify";
+import InsuranceVerification from "./app/auth/register-screen/InsuranceVerification";
+import ApplicationSuccessful from "./app/auth/register-screen/ApplicationSuccessful";
+import LoginScreen from "./app/auth/login-screen/LoginScreen";
+import ForgotPasswordScreen from "./app/auth/login-screen/ForgotPasswordScreen";
+import VerifyEmail from "./app/auth/login-screen/VerifyEmail";
+import AddNameScreen from "./app/auth/register-screen/AddNameScreen";
+import VeryifyingAccount from "./app/auth/register-screen/VeryifyingAccount";
+import NavigationBar from "./components/CourierNavigationBar";
+import Home from "./app/courier/Home";
+import Orders from "./app/courier/Orders";
+import CourierNavigationBar from "./components/CourierNavigationBar";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +31,7 @@ export default function App() {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="InsuranceVerification"
+        initialRouteName="CourierNavigationBar"
       >
         <Stack.Screen name="GetStarted" component={GetStartedScreen} />
         <Stack.Screen name="Welcome" component={Welcome} />
@@ -37,6 +47,24 @@ export default function App() {
           name="InsuranceVerification"
           component={InsuranceVerification}
         />
+        <Stack.Screen
+          name="ApplicationSuccessful"
+          component={ApplicationSuccessful}
+        />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen
+          name="ForgotPasswordScreen"
+          component={ForgotPasswordScreen}
+        />
+        <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
+        <Stack.Screen name="AddNameScreen" component={AddNameScreen} />
+        <Stack.Screen name="VeryifyingAccount" component={VeryifyingAccount} />
+        <Stack.Screen
+          name="CourierNavigationBar"
+          component={CourierNavigationBar}
+        />
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Orders" component={Orders} />
       </Stack.Navigator>
     </NavigationContainer>
   );

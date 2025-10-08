@@ -10,14 +10,13 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const StudentIdVerify = () => {
   const navigation = useNavigation();
-  const [frontPhoto, setFrontPhoto] = useState<string | null>(null);
-  const [backPhoto, setBackPhoto] = useState<string | null>(null);
+  const [insurancePhoto, setInsurancePhoto] = useState<string | null>(null);
 
   const getFileName = (uri: string) => {
     return uri.split("/").pop() || "image.jpg";
   };
 
-  const openCamera = async (type: "front" | "back") => {
+  const openCamera = async (type: "insurance") => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     if (status !== "granted") {
       Alert.alert("Permission Denied", "Camera access is required.");
@@ -25,18 +24,17 @@ const StudentIdVerify = () => {
     }
 
     const result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       quality: 1,
     });
 
     if (!result.canceled) {
-      if (type === "front") setFrontPhoto(result.assets[0].uri);
-      else setBackPhoto(result.assets[0].uri);
+      if (type === "insurance") setInsurancePhoto(result.assets[0].uri);
     }
   };
 
-  const pickFromGallery = async (type: "front" | "back") => {
+  const pickFromGallery = async (type: "insurance") => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
       Alert.alert("Permission Denied", "Gallery access is required.");
@@ -51,12 +49,11 @@ const StudentIdVerify = () => {
     });
 
     if (!result.canceled) {
-      if (type === "front") setFrontPhoto(result.assets[0].uri);
-      else setBackPhoto(result.assets[0].uri);
+      if (type === "insurance") setInsurancePhoto(result.assets[0].uri);
     }
   };
 
-  const showImageOptions = (type: "front" | "back") => {
+  const showImageOptions = (type: "insurance") => {
     Alert.alert(
       "Upload Photo",
       "Choose an option",
@@ -80,7 +77,7 @@ const StudentIdVerify = () => {
 
   const renderUploadBox = (
     photo: string | null,
-    type: "front" | "back",
+    type: "insurance",
     title: string,
     description: string
   ) => (
@@ -232,7 +229,7 @@ const StudentIdVerify = () => {
             color: "#000000",
           }}
         >
-          Enter your school ID
+          Enter your insurance
         </Text>
         <Text
           style={{
@@ -241,24 +238,16 @@ const StudentIdVerify = () => {
             color: "#6B7280",
           }}
         >
-          Put your school ID for confirmation details
+          Put your insurance receipt for safety and confirmation details
         </Text>
       </View>
 
       {/* Front Side Upload */}
       {renderUploadBox(
-        frontPhoto,
-        "front",
-        "Front side photo of your ID card",
+        insurancePhoto,
+        "insurance",
+        "Front side photo of your insurance receipt",
         "with your clear name and photo"
-      )}
-
-      {/* Back Side Upload */}
-      {renderUploadBox(
-        backPhoto,
-        "back",
-        "Back side photo of your ID card",
-        "with your clear year level"
       )}
 
       <View
@@ -278,17 +267,18 @@ const StudentIdVerify = () => {
           margin={0}
           borderRadius={30}
           onPress={() => {
-            if (!frontPhoto || !backPhoto) {
+            if (!insurancePhoto) {
               Alert.alert(
                 "Missing Photos",
                 "Please upload both front and back photos of your ID."
               );
               return;
             }
+            navigation.navigate("ApplicationSuccessful" as never);
           }}
           backgroundColor="#545EE1"
           textColor="#fff"
-          disabled={!frontPhoto || !backPhoto}
+          disabled={!insurancePhoto}
         />
       </View>
     </View>

@@ -1,4 +1,4 @@
-import { View, Text, Dimensions } from "react-native";
+import { View, Text, Dimensions, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image } from "react-native";
@@ -6,7 +6,7 @@ import { Button } from "../../components/Button";
 import LoginMan from "@/components/svg/LoginMan";
 import CreateAccountArrow from "@/components/svg/CreateAccountArrow";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { useNavigation } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
@@ -74,17 +74,21 @@ const Welcome = () => {
             fontSize={20}
             showArrow={true}
           />
-          <Text
-            style={{
-              marginTop: 16,
-              color: "#544ED1",
-              fontSize: 18,
-              textAlign: "center",
-              fontWeight: "bold",
-            }}
+          <TouchableOpacity
+            onPress={() => navigation.navigate("LoginScreen" as never)}
           >
-            I already have an account
-          </Text>
+            <Text
+              style={{
+                marginTop: 16,
+                color: "#544ED1",
+                fontSize: 18,
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
+              I already have an account
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </LinearGradient>

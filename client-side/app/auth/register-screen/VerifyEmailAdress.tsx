@@ -7,7 +7,7 @@ import {
   Keyboard,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 import { Button } from "@/components/Button";
 import AuthLeftButton from "@/components/svg/AuthLeftButton";
 

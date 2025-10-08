@@ -1,6 +1,6 @@
 import AuthLeftButton from "@/components/svg/AuthLeftButton";
 import DatePicker from "@/components/DatePicker";
-import { useNavigation } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 import { useState, useRef } from "react";
 import {
   View,
@@ -25,7 +25,8 @@ const PersonalInformation = () => {
     useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
-  // Create refs for each input field
+  const [firstNameIsFocused, setFirstNameIsFocused] = useState<boolean>(false);
+
   const firstNameRef = useRef<TextInput>(null);
   const middleNameRef = useRef<TextInput>(null);
   const lastNameRef = useRef<TextInput>(null);
@@ -62,6 +63,7 @@ const PersonalInformation = () => {
                 borderRadius: 10,
                 padding: 15,
                 color: "#000",
+                borderColor: firstNameIsFocused ? "#545EE1" : "transparent",
               }}
               placeholder="First Name"
               placeholderTextColor="#999"

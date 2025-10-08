@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 
@@ -9,6 +9,10 @@ interface PhoneInputProps {
 const PhoneInput: React.FC<PhoneInputProps> = ({ onPhoneChange }) => {
   const [countryCode, setCountryCode] = useState("+63");
   const [phone, setPhone] = useState("");
+
+  const [phoneNumberIsFocused, setPhoneNumberIsFocused] =
+    useState<boolean>(false);
+  const phoneNumberRef = useRef<TextInput>(null);
 
   const handlePhoneChange = (text: string) => {
     setPhone(text);
@@ -33,13 +37,14 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ onPhoneChange }) => {
         }}
       />
       <TextInput
+        ref={phoneNumberRef}
         style={{
           fontSize: 20,
           fontWeight: "400",
           backgroundColor: "#FFFFFF",
           padding: 10,
           paddingHorizontal: 20,
-          borderColor: "#545EE1",
+          borderColor: phoneNumberIsFocused ? "#545EE1" : "#E5E7EB",
           borderWidth: 1,
           borderRadius: 10,
           color: "#000",
@@ -50,6 +55,9 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ onPhoneChange }) => {
         value={phone}
         onChangeText={handlePhoneChange}
         keyboardType="phone-pad"
+        onSubmitEditing={() => phoneNumberRef.current?.focus()}
+        onFocus={() => setPhoneNumberIsFocused(true)}
+        onBlur={() => setPhoneNumberIsFocused(false)}
       />
     </View>
   );
