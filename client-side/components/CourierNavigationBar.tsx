@@ -147,7 +147,7 @@ const CourierNavigationBar = () => {
         <View
           style={{
             width: width,
-            height: "32%",
+            height: "50%",
             backgroundColor: "#FFFFFF",
             borderBottomLeftRadius: 20,
             borderBottomRightRadius: 20,
@@ -156,7 +156,7 @@ const CourierNavigationBar = () => {
             zIndex: 2,
             shadowColor: "#000",
             shadowOffset: { width: 0, height: 3 },
-            shadowOpacity: 0.4,
+            shadowOpacity: 0.3,
             shadowRadius: 1,
             elevation: 8,
           }}
