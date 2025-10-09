@@ -14,6 +14,7 @@ import CartIcon from "./svg/couriers/CartIcon";
 import ProfileIcon from "./svg/couriers/ProfileIcon";
 import HistoryIcon from "./svg/couriers/HistoryIcon";
 import NotifcationIcon from "./svg/couriers/NotifcationIcon";
+import OrderHistory from "@/app/customer/OrderHistory";
 
 const CourierNavigationBar = () => {
   const [activeTab, setActiveTab] = useState(2);
@@ -88,6 +89,7 @@ const CourierNavigationBar = () => {
       >
         {activeTab === 2 && <Home />}
         {activeTab === 0 && <Orders />}
+        {activeTab === 3 && <OrderHistory />}
       </View>
       {/* Navbar group */}
       <View

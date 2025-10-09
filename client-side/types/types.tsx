@@ -20,6 +20,13 @@ export type ButtonProps = {
   marginTop?: number;
 };
 
+export type DeliveryStatusType =
+  | "Delivered"
+  | "In Transit"
+  | "Delivery Failed"
+  | "Pending"
+  | "Cancelled";
+
 export type FontWeight =
   | "normal"
   | "bold"

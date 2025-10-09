@@ -1,3 +1,5 @@
+import { DeliveryStatusType } from "./types";
+
 interface Coordinates {
   latitude: number;
   longitude: number;
@@ -86,6 +88,18 @@ export interface GeoapifyGeometry {
 export interface LocationPickerParams {
   returnAddress: string;
   returnLocation: Coordinates;
+}
+
+export interface Order {
+  orderId: number;
+  orderStatus: DeliveryStatusType;
+  orderTime: Date;
+  formattedTime: string;
+  locationBought: string;
+  specification: string;
+  instructions: string;
+  placeDelivered: string;
+  fee: number;
 }
 
 export { Coordinates, CommissionData };

@@ -21,6 +21,7 @@ import Home from "./app/courier/Home";
 import Orders from "./app/customer/Orders";
 import CourierNavigationBar from "./components/CourierNavigationBar";
 import LocationPicker from "./components/LocationPicker";
+import OrderHistory from "./app/customer/OrderHistory";
 
 const Stack = createNativeStackNavigator();
 
@@ -67,6 +68,7 @@ export default function App() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Orders" component={Orders} />
         <Stack.Screen name="LocationPicker" component={LocationPicker} />
+        <Stack.Screen name="OrderHistory" component={OrderHistory} />
       </Stack.Navigator>
     </NavigationContainer>
   );
