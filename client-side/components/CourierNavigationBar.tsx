@@ -1,6 +1,6 @@
 import Home from "@/app/courier/Home";
 import Orders from "@/app/customer/Orders";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState, useRef, useEffect } from "react";
 import {
   View,
@@ -19,6 +19,10 @@ import OrderHistory from "@/app/customer/OrderHistory";
 const CourierNavigationBar = () => {
   const [activeTab, setActiveTab] = useState(2);
   const { width, height } = Dimensions.get("window");
+  const route = useRoute<any>();
+
+  const navPage = route.params?.navPage;
+
   const navItems = [
     { icon: <CartIcon />, name: "Cart" },
     { icon: <NotifcationIcon />, name: "Notification" },
@@ -63,6 +67,12 @@ const CourierNavigationBar = () => {
     });
   }, [activeTab]);
 
+  useEffect(() => {
+    if (navPage !== undefined && navPage !== null) {
+      setActiveTab(navPage);
+    }
+  }, [navPage]);
+
   const handlePress = (index: number) => {
     setActiveTab(index);
   };
@@ -87,8 +97,9 @@ const CourierNavigationBar = () => {
           height: "90%",
         }}
       >
+        {console.log(navPage)}
         {activeTab === 2 && <Home />}
-        {activeTab === 0 && <Orders />}
+        {(activeTab === 0 || navPage) && <Orders />}
         {activeTab === 3 && <OrderHistory />}
       </View>
       {/* Navbar group */}
@@ -150,7 +161,6 @@ const CourierNavigationBar = () => {
             elevation: 8,
           }}
         />
-        \{" "}
         <View
           style={{
             position: "absolute",

@@ -82,7 +82,6 @@ const OrderHistory = () => {
 
   return (
     <ScrollView>
-      {" "}
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <LinearGradient
@@ -111,6 +110,8 @@ const OrderHistory = () => {
             </Text>
 
             <FlatList
+              nestedScrollEnabled={true}
+              scrollEnabled={false}
               data={orders}
               keyExtractor={(item) => item.orderId.toString()}
               ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
