@@ -18,7 +18,7 @@ import AddNameScreen from "./app/auth/register-screen/AddNameScreen";
 import VeryifyingAccount from "./app/auth/register-screen/VeryifyingAccount";
 import NavigationBar from "./components/CourierNavigationBar";
 import Home from "./app/courier/Home";
-import Orders from "./app/courier/Orders";
+import Orders from "./app/customer/Orders";
 import CourierNavigationBar from "./components/CourierNavigationBar";
 import LocationPicker from "./components/LocationPicker";
 

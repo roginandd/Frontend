@@ -1,5 +1,5 @@
 import Home from "@/app/courier/Home";
-import Orders from "@/app/courier/Orders";
+import Orders from "@/app/customer/Orders";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState, useRef, useEffect } from "react";
 import {
@@ -84,7 +84,6 @@ const CourierNavigationBar = () => {
           left: 0,
           right: 0,
           height: "90%",
-          
         }}
       >
         {activeTab === 2 && <Home />}
