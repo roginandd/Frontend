@@ -338,7 +338,8 @@ export default function LocationPicker() {
               region?.longitude as number
             );
 
-            navigation.navigate("Orders", {
+            navigation.navigate("CourierNavigationBar", {
+              navPage: 0,
               returnAddress: address,
               returnLocation: {
                 latitude: region?.latitude as number,
@@ -362,7 +363,6 @@ export default function LocationPicker() {
           <Text style={{ color: "white", fontWeight: "600", fontSize: 16 }}>
             Set location where to buy / pickup
           </Text>
-          <Text></Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

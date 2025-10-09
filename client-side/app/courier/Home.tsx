@@ -105,7 +105,6 @@ const Home = () => {
 
         {/* Dashboard */}
         <View style={{ marginTop: 30 }}>
-          {/* Row 1 */}
           <View
             style={{
               flexDirection: "row",
