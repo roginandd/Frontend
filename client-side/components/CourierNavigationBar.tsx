@@ -97,7 +97,6 @@ const CourierNavigationBar = () => {
           height: "90%",
         }}
       >
-        {console.log(navPage)}
         {activeTab === 2 && <Home />}
         {(activeTab === 0 || navPage) && <Orders />}
         {activeTab === 3 && <OrderHistory />}
