@@ -338,7 +338,7 @@ export default function LocationPicker() {
               region?.longitude as number
             );
 
-            navigation.navigate("CourierNavigationBar", {
+            navigation.navigate("CustomerNavigationBar", {
               navPage: 0,
               returnAddress: address,
               returnLocation: {

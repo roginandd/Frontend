@@ -24,6 +24,7 @@ import LocationPicker from "./components/LocationPicker";
 import OrderHistory from "./app/customer/OrderHistory";
 import Settings from "./components/Settings";
 import ChangePassword from "./app/auth/ChangePassword";
+import CustomerNavigationBar from "./app/customer/CustomerNavigationBar";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,7 +36,7 @@ export default function App() {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="CourierNavigationBar"
+        initialRouteName="CustomerNavigationBar"
       >
         <Stack.Screen name="GetStarted" component={GetStartedScreen} />
         <Stack.Screen name="Welcome" component={Welcome} />
@@ -65,8 +66,8 @@ export default function App() {
         <Stack.Screen name="AddNameScreen" component={AddNameScreen} />
         <Stack.Screen name="VeryifyingAccount" component={VeryifyingAccount} />
         <Stack.Screen
-          name="CourierNavigationBar"
-          component={CourierNavigationBar}
+          name="CustomerNavigationBar"
+          component={CustomerNavigationBar}
         />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Orders" component={Orders} />
