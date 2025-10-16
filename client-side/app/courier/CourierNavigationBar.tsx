@@ -16,15 +16,18 @@ import HistoryIcon from "../../components/svg/HistoryIcon";
 import NotifcationIcon from "../../components/svg/NotifcationIcon";
 import OrderHistory from "@/app/customer/OrderHistory";
 import Profile from "@/components/Profile";
+import CourierHome from "./CourierHome";
+import OrdersIcon from "@/components/svg/OrdersIcon";
+import OrderList from "./OrderList";
 
-const CustomerNavigationBar = () => {
+const CourierNavigationBar = () => {
   const [activeTab, setActiveTab] = useState(2);
   const { width } = Dimensions.get("window");
   const route = useRoute<any>();
   const navPage = route.params?.navPage;
 
   const navItems = [
-    { icon: <CartIcon />, name: "Cart" },
+    { icon: <OrdersIcon />, name: "Orders" },
     { icon: <NotifcationIcon />, name: "Notification" },
     { icon: <HomeIcon />, name: "Home" },
     { icon: <HistoryIcon />, name: "History" },
@@ -72,11 +75,10 @@ const CustomerNavigationBar = () => {
           flex: 1,
           backgroundColor: "white",
           maxHeight: "90%",
-          paddingBottom: "5%",
         }}
       >
-        {activeTab === 2 && <Home />}
-        {(activeTab === 0 || navPage) && <Orders />}
+        {activeTab === 2 && <CourierHome />}
+        {(activeTab === 0 || navPage) && <OrderList />}
         {activeTab === 3 && <OrderHistory />}
         {activeTab === 4 && <Profile />}
       </View>
@@ -166,4 +168,4 @@ const CustomerNavigationBar = () => {
   );
 };
 
-export default CustomerNavigationBar;
+export default CourierNavigationBar;

@@ -27,7 +27,6 @@ import { OrdersRouteProp } from "@/types/types";
 import { useRoute } from "@react-navigation/native";
 import { courierCoordinates } from "@/constants/courier_coordinate";
 import { GEOAPIFY_KEY } from "@env";
-import CourierNavigationBar from "@/components/CourierNavigationBar";
 
 const screenWidth = Dimensions.get("window").width;
 

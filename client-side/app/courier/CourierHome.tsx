@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const screenWidth = Dimensions.get("window").width;
 
-const Home = () => {
+const CourierHome = () => {
   const [toggleModal, setToggleModal] = useState<boolean>(false);
   const navigator = useNavigation();
 
@@ -104,7 +104,7 @@ const Home = () => {
                   fontWeight: "600",
                 }}
               >
-                Commissioner
+                Courier
               </Text>
             </TouchableOpacity>
             <View style={{ marginTop: "3%" }}>
@@ -120,7 +120,7 @@ const Home = () => {
             setToggleModal(false);
             navigator.reset({
               index: 0,
-              routes: [{ name: "CourierNavigationBar" as never }],
+              routes: [{ name: "CustomerNavigationBar" as never }],
             });
           }}
         />
@@ -151,7 +151,7 @@ const Home = () => {
                   marginBottom: 10,
                 }}
               >
-                Total Deliveries
+                Total Orders
               </Text>
               <Text
                 style={{
@@ -181,7 +181,7 @@ const Home = () => {
                   marginBottom: 10,
                 }}
               >
-                Total Earnings
+                Total Money Spent
               </Text>
               <Text
                 style={{
@@ -221,7 +221,7 @@ const Home = () => {
                   marginBottom: 10,
                 }}
               >
-                Total Complaints
+                Average Spent
               </Text>
               <Text
                 style={{
@@ -289,7 +289,7 @@ const Home = () => {
                   marginBottom: 10,
                 }}
               >
-                Average Time
+                Total Complaint
               </Text>
               <Text
                 style={{
@@ -308,4 +308,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default CourierHome;

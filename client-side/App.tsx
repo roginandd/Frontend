@@ -16,15 +16,16 @@ import ForgotPasswordScreen from "./app/auth/login-screen/ForgotPasswordScreen";
 import VerifyEmail from "./app/auth/login-screen/VerifyEmail";
 import AddNameScreen from "./app/auth/register-screen/AddNameScreen";
 import VeryifyingAccount from "./app/auth/register-screen/VeryifyingAccount";
-import NavigationBar from "./components/CourierNavigationBar";
-import Home from "./app/courier/Home";
+import Home from "./app/customer/CustomerHome";
 import Orders from "./app/customer/Orders";
-import CourierNavigationBar from "./components/CourierNavigationBar";
 import LocationPicker from "./components/LocationPicker";
 import OrderHistory from "./app/customer/OrderHistory";
 import Settings from "./components/Settings";
 import ChangePassword from "./app/auth/ChangePassword";
 import CustomerNavigationBar from "./app/customer/CustomerNavigationBar";
+import CourierNavigationBar from "./app/courier/CourierNavigationBar";
+import CourierHome from "./app/courier/CourierHome";
+import OrderList from "./app/courier/OrderList";
 
 const Stack = createNativeStackNavigator();
 
@@ -36,7 +37,7 @@ export default function App() {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="CustomerNavigationBar"
+        initialRouteName="CourierNavigationBar"
       >
         <Stack.Screen name="GetStarted" component={GetStartedScreen} />
         <Stack.Screen name="Welcome" component={Welcome} />
@@ -75,6 +76,12 @@ export default function App() {
         <Stack.Screen name="OrderHistory" component={OrderHistory} />
         <Stack.Screen name="Settings" component={Settings}></Stack.Screen>
         <Stack.Screen name="ChangePassword" component={ChangePassword} />
+        <Stack.Screen
+          name="CourierNavigationBar"
+          component={CourierNavigationBar}
+        ></Stack.Screen>
+        <Stack.Screen name="CourierHome" component={CourierHome}></Stack.Screen>
+        <Stack.Screen name="OrderList" component={OrderList}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
