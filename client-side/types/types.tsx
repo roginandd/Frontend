@@ -1,7 +1,7 @@
 import { DimensionValue } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
-import { Coordinates, LocationPickerParams } from "./interfaces";
+import { Coordinates, LocationPickerParams, Order } from "./interfaces";
 
 export type ButtonProps = {
   title: string;
@@ -64,6 +64,7 @@ export type RootStackParamList = {
   VeryifyingAccount: undefined;
   CourierNavigationBar: undefined;
   Home: undefined;
+  CourierTrackingView: { orderId: number };
   Orders:
     | {
         returnAddress: string;
@@ -74,7 +75,18 @@ export type RootStackParamList = {
     returnAddress: string;
     returnLocation: Coordinates;
   };
+  OrderHistory: { mode: HistoryMode } | undefined;
 };
+
+export type CourierTrackingViewNavProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "CourierTrackingView"
+>;
+
+export type CourierTrackingViewRouteProp = RouteProp<
+  RootStackParamList,
+  "CourierTrackingView"
+>;
 
 export type LocationPickerNavProp =
   NativeStackNavigationProp<RootStackParamList>;
@@ -90,3 +102,15 @@ export type LocationPickerRouteProp = RouteProp<
   RootStackParamList,
   "LocationPicker"
 >;
+
+export type ConfirmDeliverProps = {
+  visible: boolean;
+  title?: string;
+  message?: string;
+  confirmText?: string; // optional override
+  cancelText?: string; // optional override
+  onConfirm: () => void;
+  onCancel: () => void;
+};
+
+export type LogoutRoutePrope = RouteProp<RootStackParamList, "LoginScreen">;
