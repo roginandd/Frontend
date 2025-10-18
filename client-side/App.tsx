@@ -26,6 +26,7 @@ import CustomerNavigationBar from "./app/customer/CustomerNavigationBar";
 import CourierNavigationBar from "./app/courier/CourierNavigationBar";
 import CourierHome from "./app/courier/CourierHome";
 import OrderList from "./app/courier/OrderList";
+import CourierTrackingView from "./app/courier/CourierTrackingView";
 
 const Stack = createNativeStackNavigator();
 
@@ -82,6 +83,10 @@ export default function App() {
         ></Stack.Screen>
         <Stack.Screen name="CourierHome" component={CourierHome}></Stack.Screen>
         <Stack.Screen name="OrderList" component={OrderList}></Stack.Screen>
+        <Stack.Screen
+          name="CourierTrackingView"
+          component={CourierTrackingView}
+        ></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

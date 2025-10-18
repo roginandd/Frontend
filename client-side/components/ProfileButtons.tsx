@@ -187,7 +187,7 @@ const ProfileButtons = ({ user }: ProfileProp) => {
             setLogoutModal(false);
             navigation.reset({
               index: 0,
-              routes: [{ name: "Login" as never }],
+              routes: [{ name: "Welcome" as never }],
             });
           }}
         />

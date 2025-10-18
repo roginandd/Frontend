@@ -14,6 +14,11 @@ import ExpandOrder from "@/components/svg/ExpandOrder";
 import MinimizeOrderIcon from "@/components/svg/MinimizeOrderIcon";
 import { order_list } from "@/constants/order_list";
 import NoOrderPoster from "@/components/svg/NoOrderPoster";
+import { useNavigation } from "expo-router";
+import { CourierTrackingViewNavProp } from "@/types/types";
+import PickIcon from "@/components/svg/PickIcon";
+import LocationBlueIcon from "@/components/svg/LocationBlueIcon";
+import ConfirmPickupModal from "@/components/modals/ConfirmDeliver";
 
 if (
   Platform.OS === "android" &&
@@ -24,6 +29,18 @@ if (
 
 const OrderList = () => {
   const [expandedOrderId, setExpandedOrderId] = useState<number | null>(null);
+  const navigator = useNavigation<CourierTrackingViewNavProp>();
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const routeCourierTrackingView = (orderId: number) => {
+    console.log(`Order Id: ${orderId}`);
+    navigator.navigate("CourierTrackingView", { orderId });
+    setShowConfirm(false);
+  };
+
+  const onConfirmPickup = () => {
+    setShowConfirm(true);
+  };
 
   const toggleExpand = (orderId: number) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -51,7 +68,7 @@ const OrderList = () => {
           style={{
             color: "white",
             fontWeight: "300",
-            fontSize: 16,
+            fontSize: 18,
             marginBottom: hasOrders ? 20 : 0,
           }}
         >
@@ -87,6 +104,15 @@ const OrderList = () => {
                     elevation: 2,
                   }}
                 >
+                  <ConfirmPickupModal
+                    visible={showConfirm}
+                    onCancel={() => setShowConfirm(false)}
+                    onConfirm={() => routeCourierTrackingView(item.orderId)}
+                    title="Confirm Pickup"
+                    message="Are you sure you want to pick up this order?"
+                    confirmText="Yes, pick up"
+                    cancelText="No"
+                  />
                   {/* Header */}
                   <View
                     style={{
@@ -127,24 +153,40 @@ const OrderList = () => {
                         gap: 20,
                       }}
                     >
-                      {/* Buy Section */}
                       <View>
-                        <Text
-                          style={{
-                            fontWeight: "700",
-                            fontSize: 16,
-                            paddingVertical: 5,
-                          }}
+                        <View
+                          style={{ flexDirection: "column", marginBottom: 10 }}
                         >
-                          🛒 Buy
-                        </Text>
-                        <Text style={{ color: "#555" }}>
-                          {item.locationBought}
-                        </Text>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
+                          >
+                            <View style={{ marginRight: 8 }}>
+                              <PickIcon width={20} height={20} />
+                            </View>
+
+                            <Text
+                              style={{
+                                fontWeight: "700",
+                                fontSize: 18,
+                                paddingVertical: 5,
+                              }}
+                            >
+                              Buy
+                            </Text>
+                          </View>
+
+                          <Text style={{ color: "#555", marginLeft: 28 }}>
+                            {item.locationBought}
+                          </Text>
+                        </View>
+
                         <View
                           style={{
                             borderWidth: 1,
-                            borderColor: "#ccc",
+                            borderColor: "#154D71",
                             borderRadius: 8,
                             padding: 8,
                             marginTop: 6,
@@ -155,12 +197,11 @@ const OrderList = () => {
                         </View>
                       </View>
 
-                      {/* Delivery Instructions */}
                       <View>
                         <Text
                           style={{
                             fontWeight: "700",
-                            fontSize: 16,
+                            fontSize: 18,
                             paddingVertical: 5,
                           }}
                         >
@@ -169,7 +210,7 @@ const OrderList = () => {
                         <View
                           style={{
                             borderWidth: 1,
-                            borderColor: "#ccc",
+                            borderColor: "#154D71",
                             borderRadius: 8,
                             padding: 8,
                             marginTop: 6,
@@ -179,20 +220,44 @@ const OrderList = () => {
                         </View>
                       </View>
 
-                      {/* Delivery Section */}
                       <View>
-                        <Text
-                          style={{
-                            fontWeight: "700",
-                            fontSize: 16,
-                            paddingVertical: 5,
-                          }}
+                        <View
+                          style={{ flexDirection: "column", marginBottom: 10 }}
                         >
-                          📍 Delivery
-                        </Text>
-                        <Text style={{ color: "#555" }}>
-                          {item.placeDelivered}
-                        </Text>
+                          {/* Row: Icon + Label */}
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
+                          >
+                            <View style={{ marginRight: 8 }}>
+                              <LocationBlueIcon width={20} height={20} />
+                            </View>
+
+                            <Text
+                              style={{
+                                fontWeight: "700",
+                                fontSize: 18,
+                                paddingVertical: 5,
+                              }}
+                            >
+                              Delivery
+                            </Text>
+                          </View>
+
+                          {/* Delivery Location */}
+                          <Text
+                            style={{
+                              color: "#555",
+                              marginLeft: 28, // aligns text under label
+                              lineHeight: 20,
+                            }}
+                          >
+                            {item.placeDelivered}
+                          </Text>
+                        </View>
+
                         <View
                           style={{
                             flexDirection: "row",
@@ -201,27 +266,32 @@ const OrderList = () => {
                             paddingVertical: 5,
                           }}
                         >
-                          <Text style={{ fontWeight: "600" }}>
+                          <Text style={{ fontWeight: "600", fontSize: 18 }}>
                             Delivery Fee:
                           </Text>
                           <View
                             style={{
                               borderWidth: 1,
                               borderColor: "#aaa",
-                              borderRadius: 6,
                               paddingHorizontal: 8,
                               marginLeft: 5,
+                              height: 25,
+                              justifyContent: "center",
+                              marginRight: 5,
                             }}
                           >
-                            <Text style={{ fontWeight: "600" }}>₱50</Text>
+                            <Text style={{ fontWeight: "600" }}>
+                              {item.fee}
+                            </Text>
                           </View>
                         </View>
                       </View>
 
-                      {/* Confirm Button */}
                       <View style={{ alignItems: "center", marginTop: 10 }}>
                         <Button
-                          onPress={() => {}}
+                          onPress={() => {
+                            onConfirmPickup();
+                          }}
                           textColor="white"
                           fontWeight="bold"
                           fontSize={17}
