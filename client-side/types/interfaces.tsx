@@ -92,7 +92,8 @@ export interface LocationPickerParams {
 
 export interface Order {
   orderId: number;
-  orderStatus: DeliveryStatusType | undefined;
+  user: UserOrder;
+  orderStatus: DeliveryStatusType;
   orderTime: Date;
   formattedTime: string | undefined;
   locationBought: string;
@@ -112,6 +113,12 @@ export interface User {
   dateOfBirth: Date;
   emailAddress: string;
   password: string;
+}
+
+export interface UserOrder {
+  firstName: string;
+  lastName: string;
+  middleName: string | null;
 }
 
 export { Coordinates, CommissionData };
