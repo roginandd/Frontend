@@ -3,7 +3,12 @@ import { Order } from "@/types/interfaces";
 export const order_list: Order[] = [
   {
     orderId: 101,
-    orderStatus: undefined,
+    user: {
+      firstName: "Christian",
+      lastName: "Osorno",
+      middleName: null,
+    },
+    orderStatus: "Delivered",
     orderTime: new Date(2025, 7, 20, 9, 20),
     formattedTime: undefined,
     locationBought: "Jollibee SM Downtown",
@@ -19,7 +24,12 @@ Curabitur gravida ipsum at lacus commodo mattis. Fusce tincidunt nulla nec eleme
   },
   {
     orderId: 102,
-    orderStatus: undefined,
+    user: {
+      firstName: "Andrea",
+      lastName: "Santos",
+      middleName: null,
+    },
+    orderStatus: "Pending",
     orderTime: new Date(2025, 7, 21, 14, 35),
     formattedTime: undefined,
     locationBought: "7-Eleven Loyola Street",
@@ -30,7 +40,12 @@ Curabitur gravida ipsum at lacus commodo mattis. Fusce tincidunt nulla nec eleme
   },
   {
     orderId: 103,
-    orderStatus: undefined,
+    user: {
+      firstName: "Miguel",
+      lastName: "De Vera",
+      middleName: null,
+    },
+    orderStatus: "In Transit",
     orderTime: new Date(2025, 7, 22, 11, 50),
     formattedTime: undefined,
     locationBought: "McDonald's Katipunan",
@@ -41,7 +56,12 @@ Curabitur gravida ipsum at lacus commodo mattis. Fusce tincidunt nulla nec eleme
   },
   {
     orderId: 104,
-    orderStatus: undefined,
+    user: {
+      firstName: "Lara",
+      lastName: "Velasquez",
+      middleName: null,
+    },
+    orderStatus: "Cancelled",
     orderTime: new Date(2025, 7, 22, 18, 10),
     formattedTime: undefined,
     locationBought: "Watsons Gateway Mall",
@@ -52,7 +72,12 @@ Curabitur gravida ipsum at lacus commodo mattis. Fusce tincidunt nulla nec eleme
   },
   {
     orderId: 105,
-    orderStatus: undefined,
+    user: {
+      firstName: "Joshua",
+      lastName: "Reyes",
+      middleName: null,
+    },
+    orderStatus: "Delivered",
     orderTime: new Date(2025, 7, 23, 8, 45),
     formattedTime: undefined,
     locationBought: "Starbucks Katipunan",
@@ -60,6 +85,5 @@ Curabitur gravida ipsum at lacus commodo mattis. Fusce tincidunt nulla nec eleme
     instructions: "No whipped cream, paper straw only",
     placeDelivered: "Ateneo Library Lobby",
     fee: 60,
-    
   },
 ];
