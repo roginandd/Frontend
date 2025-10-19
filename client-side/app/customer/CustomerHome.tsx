@@ -12,12 +12,14 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import SwitchIcon from "@/components/svg/SwitchIcon";
 import SwitchRole from "../../components/modals/SwitchRole";
 import { useNavigation } from "@react-navigation/native";
+import { useAuthStore } from "../api/store/auth_store";
 
 const screenWidth = Dimensions.get("window").width;
 
 const Home = () => {
   const [toggleModal, setToggleModal] = useState<boolean>(false);
   const navigator = useNavigation();
+  const { user } = useAuthStore();
 
   const switchRole = () => {
     setToggleModal(true);
@@ -83,7 +85,7 @@ const Home = () => {
           >
             Hello,{" "}
             <Text style={{ color: "#44E36C", fontWeight: "bold" }}>
-              Christian
+              {user?.firstName}
             </Text>
           </Text>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 13 }}>

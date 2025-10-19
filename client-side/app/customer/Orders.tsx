@@ -27,6 +27,9 @@ import { OrdersRouteProp } from "@/types/types";
 import { useRoute } from "@react-navigation/native";
 import { courierCoordinates } from "@/constants/courier_coordinate";
 import { GEOAPIFY_KEY } from "@env";
+import { useAuthStore } from "../api/store/auth_store";
+import { PostOrderRequestDTO } from "../api/dto/request/order.request.dto";
+import { postOrder } from "../api/orders";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -49,10 +52,54 @@ const Orders: React.FC = () => {
   const mapRef = useRef<MapView>(null);
   const route = useRoute<OrdersRouteProp>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [requestDto, setRequestDto] = useState<PostOrderRequestDTO>(
+    {} as PostOrderRequestDTO
+  );
 
   const params = route.params;
   const returnAddress = params?.returnAddress;
   const returnLocation = params?.returnLocation;
+
+  const { user } = useAuthStore();
+  const postOrderFunction = async (): Promise<void> => {
+    try {
+      if (!user) {
+        Alert.alert("Error", "User not found.");
+        return;
+      }
+
+      const dto: PostOrderRequestDTO = {
+        customerId: user.userIdPK,
+        request: commissionData.specification,
+        tipFee: 0,
+        status: "Pending",
+        priority: 0,
+        locationLatitude: courierLocation.latitude,
+        locationLongitude: courierLocation.longitude,
+        customerLatitude: commissionData.coordinates.latitude,
+        customerLongitude: commissionData.coordinates.longitude,
+        deliveryDistance: coordinates.length > 0 ? coordinates.length : 0,
+        deliveryNotes: commissionData.deliveryInstructions,
+      };
+
+      setIsLoading(true);
+      const response = await postOrder(dto);
+      setIsLoading(false);
+
+      Alert.alert("Success", "Order successfully created!");
+      console.log("Order created:", response);
+    } catch (err: any) {
+      setIsLoading(false);
+      console.error(
+        "Order creation failed:",
+        err.response?.data || err.message
+      );
+      Alert.alert(
+        "Error",
+        "Failed to create order. Check console for details."
+      );
+    }
+  };
 
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -398,9 +445,7 @@ const Orders: React.FC = () => {
               paddingHorizontal: 25,
               marginTop: 10,
             }}
-            onPress={() =>
-              Alert.alert("Order Data", JSON.stringify(commissionData, null, 2))
-            }
+            onPress={postOrderFunction}
           >
             <Text style={{ color: "white", fontWeight: "600", fontSize: 16 }}>
               ₱ {orderPrice} Delivery Fee

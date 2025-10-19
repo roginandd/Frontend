@@ -29,7 +29,7 @@ const { height } = Dimensions.get("window");
 
 const CourierTrackingView = () => {
   const collapsedHeight = height * 0.2;
-  const expandedHeight = height * 0.65;
+  const expandedHeight = height * 0.6;
   const animatedHeight = useRef(new Animated.Value(collapsedHeight)).current;
 
   const [orderDetails, setOrderDetails] = useState<Order | null>(null);
@@ -229,15 +229,37 @@ const CourierTrackingView = () => {
           {/* Delivery Info Section */}
           <View style={{ flexDirection: "column", gap: 10 }}>
             {/* Row: Icon + Name */}
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <DeliverProfileIcon
-                width={26}
-                height={24}
-                style={{ marginRight: 10 }}
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              {/* Left section: Icon + Name */}
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <DeliverProfileIcon
+                  width={26}
+                  height={24}
+                  style={{ marginRight: 10 }}
+                />
+                <Text
+                  style={{ fontWeight: "700", fontSize: 18, color: "#111" }}
+                >
+                  {user.firstName} {user.lastName}
+                </Text>
+              </View>
+
+              {/* Right section: Message button */}
+              <Button
+                onPress={() => {}}
+                title="Message"
+                width={85}
+                height={30}
+                borderRadius={20}
+                backgroundColor="#545EE1"
+                textColor="white"
               />
-              <Text style={{ fontWeight: "700", fontSize: 18, color: "#111" }}>
-                {user.firstName} {user.lastName}
-              </Text>
             </View>
 
             {/* Row: Icon + Delivery Details */}
@@ -434,26 +456,9 @@ const CourierTrackingView = () => {
                       </Text>
                     </View>
                   </View>
-
                   <Text style={{ color: "#555", marginTop: 10 }}>
                     Note: You only have 10 minutes to cancel the delivery
                   </Text>
-                </View>
-
-                <View style={{ alignItems: "center" }}>
-                  <Button
-                    onPress={() => {
-                      triggerConfirmPickup();
-                    }}
-                    textColor="white"
-                    fontWeight="bold"
-                    fontSize={17}
-                    title="Cancel Delivery"
-                    height={50}
-                    width="90%"
-                    borderRadius={30}
-                    backgroundColor="#545EE1"
-                  />
                 </View>
               </View>
             </>
