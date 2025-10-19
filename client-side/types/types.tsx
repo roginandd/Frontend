@@ -18,7 +18,17 @@ export type ButtonProps = {
   width?: DimensionValue; // FIXED
   height?: DimensionValue; // FIXED
   marginTop?: number;
+  marginBottom?: number;
 };
+export enum Role {
+  COURIER,
+  CUSTOMER,
+}
+export enum VerificationInfoStatus {
+  PENDING,
+  ACCEPTED,
+  REJECTED,
+}
 
 export type DeliveryStatusType =
   | "Delivered"
@@ -47,9 +57,25 @@ export type AuthLeftButtonProps = {
   color?: string;
 };
 
+export type RegisterStackParamList = {
+  AddNameScreen: undefined;
+  PhoneNumber: undefined;
+  VerifyPhoneNumber: undefined;
+  VerifyEmailAddress: undefined;
+  PersonalInformation: undefined;
+  StudentIdVerify: undefined;
+  InsuranceVerification: undefined;
+  VeryifyingAccount: undefined;
+  ApplicationSuccessful: undefined;
+};
+
 export type RootStackParamList = {
   GetStarted: undefined;
   Welcome: undefined;
+
+  // ✅ Add this line to support nested navigation
+  RegisterFlow: { screen?: keyof RegisterStackParamList } | undefined;
+
   PhoneNumber: undefined;
   VerifyPhoneNumber: undefined;
   VerifyEmailAddress: undefined;
@@ -57,11 +83,13 @@ export type RootStackParamList = {
   StudentIdVerify: undefined;
   InsuranceVerification: undefined;
   ApplicationSuccessful: undefined;
+
   LoginScreen: undefined;
   ForgotPasswordScreen: undefined;
   VerifyEmail: undefined;
   AddNameScreen: undefined;
   VeryifyingAccount: undefined;
+
   CourierNavigationBar: undefined;
   Home: undefined;
   CourierTrackingView: { orderId: number };
@@ -70,13 +98,15 @@ export type RootStackParamList = {
         returnAddress: string;
         returnLocation: Coordinates;
       }
-    | undefined; // allow it to be optional  LocationPicker: undefined;
+    | undefined;
   LocationPicker: {
     returnAddress: string;
     returnLocation: Coordinates;
   };
   OrderHistory: { mode: HistoryMode } | undefined;
 };
+
+export type RootNav = NativeStackNavigationProp<RootStackParamList>;
 
 export type CourierTrackingViewNavProp = NativeStackNavigationProp<
   RootStackParamList,

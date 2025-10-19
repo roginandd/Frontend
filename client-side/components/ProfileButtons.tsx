@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Button } from "@/components/Button"; // adjust import path
@@ -7,14 +7,22 @@ import NextArrowIcon from "./svg/NextArrowIcon";
 import { useNavigation } from "@react-navigation/native";
 import { User } from "@/types/interfaces";
 import ConfirmLogout from "./modals/ConfirmLogout";
+import { UserResponseDTO } from "@/app/api/dto/response/auth.response.dto";
+import { useAuthStore } from "@/app/api/store/auth_store";
 
 type ProfileProp = {
-  user: User;
+  users: UserResponseDTO;
 };
 
-const ProfileButtons = ({ user }: ProfileProp) => {
+const ProfileButtons = ({ users }: ProfileProp) => {
   const navigation = useNavigation<any>();
   const [logoutModal, setLogoutModal] = useState<boolean>(false);
+
+  const { logout, user } = useAuthStore();
+
+  useEffect(() => {
+    console.log(`NEW USER: ${JSON.stringify(user)}`);
+  }, [user]);
 
   return (
     <View style={{ marginTop: 40, gap: 30 }}>
@@ -183,8 +191,9 @@ const ProfileButtons = ({ user }: ProfileProp) => {
           onCancel={() => {
             setLogoutModal(false);
           }}
-          onConfirm={() => {
+          onConfirm={async () => {
             setLogoutModal(false);
+            await logout();
             navigation.reset({
               index: 0,
               routes: [{ name: "Welcome" as never }],
