@@ -21,8 +21,8 @@ export type ButtonProps = {
   marginBottom?: number;
 };
 export enum Role {
-  COURIER,
-  CUSTOMER,
+  COURIER = 1,
+  CUSTOMER = 0,
 }
 export enum VerificationInfoStatus {
   PENDING,
@@ -73,9 +73,9 @@ export type RootStackParamList = {
   GetStarted: undefined;
   Welcome: undefined;
 
-  // ✅ Add this line to support nested navigation
   RegisterFlow: { screen?: keyof RegisterStackParamList } | undefined;
 
+  CustomerNavigationBar: undefined;
   PhoneNumber: undefined;
   VerifyPhoneNumber: undefined;
   VerifyEmailAddress: undefined;
