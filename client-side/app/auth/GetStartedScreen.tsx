@@ -1,7 +1,7 @@
-import { Text, View, Image, Dimensions } from "react-native";
-import { Button } from "../../components/Button";
-import { useNavigation } from "@react-navigation/native";
 import StandingMan from "@/components/svg/StandingMan";
+import { useNavigation } from "@react-navigation/native";
+import { Dimensions, Text, View } from "react-native";
+import { Button } from "../../components/Button";
 import { getOrders } from "../api/orders";
 
 const GetStartedScreen = () => {

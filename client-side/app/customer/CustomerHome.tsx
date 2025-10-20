@@ -13,6 +13,7 @@ import SwitchIcon from "@/components/svg/SwitchIcon";
 import SwitchRole from "../../components/modals/SwitchRole";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthStore } from "../api/store/auth_store";
+import { changeRole } from "../api/user";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -23,6 +24,14 @@ const Home = () => {
 
   const switchRole = () => {
     setToggleModal(true);
+  };
+  const switchRolePersist = async () => {
+    try {
+      await changeRole();
+    } catch (error) {
+      console.error("Error changing role:", error);
+      // Handle error (e.g., show an error message)
+    }
   };
 
   return (
@@ -119,6 +128,7 @@ const Home = () => {
           isVisible={toggleModal}
           onClose={() => setToggleModal(false)}
           onConfirm={() => {
+            switchRolePersist();
             setToggleModal(false);
             navigator.reset({
               index: 0,

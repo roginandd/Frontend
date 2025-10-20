@@ -12,6 +12,7 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import SwitchIcon from "@/components/svg/SwitchIcon";
 import SwitchRole from "../../components/modals/SwitchRole";
 import { useNavigation } from "@react-navigation/native";
+import { changeRole } from "../api/user";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -21,6 +22,15 @@ const CourierHome = () => {
 
   const switchRole = () => {
     setToggleModal(true);
+  };
+
+  const switchRolePersist = async () => {
+    try {
+      await changeRole();
+    } catch (error) {
+      console.error("Error changing role:", error);
+      // Handle error (e.g., show an error message)
+    }
   };
 
   return (
@@ -118,6 +128,7 @@ const CourierHome = () => {
           onClose={() => setToggleModal(false)}
           onConfirm={() => {
             setToggleModal(false);
+            switchRolePersist();
             navigator.reset({
               index: 0,
               routes: [{ name: "CustomerNavigationBar" as never }],
