@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -19,6 +19,13 @@ import { CourierTrackingViewNavProp } from "@/types/types";
 import PickIcon from "@/components/svg/PickIcon";
 import LocationBlueIcon from "@/components/svg/LocationBlueIcon";
 import ConfirmPickupModal from "@/components/modals/ConfirmDeliver";
+import { OrderResponseDTO } from "../api/dto/response/auth.response.dto";
+import axios from "axios";
+import { acceptOrderById, getOrderByStatus } from "../api/orders";
+import { Status } from "../api/dto/response/order.response.dto";
+import { useAuthStore } from "../api/store/auth_store";
+import * as Location from "expo-location";
+import { AcceptOrderRequestDTO } from "../api/dto/request/order.request.dto";
 
 if (
   Platform.OS === "android" &&
@@ -31,12 +38,79 @@ const OrderList = () => {
   const [expandedOrderId, setExpandedOrderId] = useState<number | null>(null);
   const navigator = useNavigation<CourierTrackingViewNavProp>();
   const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
+  const [orders, setOrders] = useState<OrderResponseDTO[] | null>(null);
+  const [location, setLocation] = useState<Location.LocationObject | null>(
+    null
+  );
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const { user } = useAuthStore();
 
   const routeCourierTrackingView = (orderId: number) => {
     console.log(`Order Id: ${orderId}`);
     navigator.navigate("CourierTrackingView", { orderId });
     setShowConfirm(false);
   };
+
+  const getLocation = async () => {
+    try {
+      // ✅ Ask for permission
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      const currentLocation = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.High,
+      });
+
+      setLocation(currentLocation);
+      console.log("📍 Current location:", currentLocation);
+    } catch (err) {
+      console.error("Error getting location:", err);
+      setErrorMsg("Failed to retrieve location");
+    }
+  };
+
+  const fetchPendingOrders = async (): Promise<OrderResponseDTO[]> => {
+    try {
+      const response = await getOrderByStatus(Status.PENDING);
+
+      setOrders(response);
+
+      return response;
+    } catch (err: any) {
+      console.error(err.response.data);
+      throw err;
+    }
+  };
+
+  const acceptOrder = async (orderId: number) => {
+    try {
+      const request: AcceptOrderRequestDTO = {
+        courierId: user?.userIdPK!,
+        courierLatitude: location?.coords.latitude!,
+        courierLongitude: location?.coords.longitude!,
+      };
+
+      const response = await acceptOrderById(orderId, request);
+      console.log("Order accepted:", response);
+      return response;
+    } catch (err: any) {
+      console.error("Error accepting order:", err.message);
+      throw err;
+    }
+  };
+
+  useEffect(() => {
+    fetchPendingOrders();
+  }, []);
+
+  useEffect(() => {
+    fetchPendingOrders();
+  }, []);
 
   const onConfirmPickup = () => {
     setShowConfirm(true);
@@ -47,7 +121,7 @@ const OrderList = () => {
     setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
   };
 
-  const hasOrders = Array.isArray(order_list) && order_list.length > 0;
+  const hasOrders = Array.isArray(orders) && orders.length > 0;
 
   return (
     <LinearGradient
@@ -90,11 +164,14 @@ const OrderList = () => {
           </View>
         ) : (
           <FlatList
-            data={order_list}
-            keyExtractor={(item) => item.orderId.toString()}
+            data={orders}
+            keyExtractor={(item) => item.orderIdPK.toString()}
             ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
             renderItem={({ item }) => {
-              const isExpanded = expandedOrderId === item.orderId;
+              if (item.customerId === user?.userIdPK) {
+                return null;
+              }
+              const isExpanded = expandedOrderId === item.orderIdPK;
               return (
                 <View
                   style={{
@@ -107,7 +184,10 @@ const OrderList = () => {
                   <ConfirmPickupModal
                     visible={showConfirm}
                     onCancel={() => setShowConfirm(false)}
-                    onConfirm={() => routeCourierTrackingView(item.orderId)}
+                    onConfirm={() => {
+                      acceptOrder(item.orderIdPK);
+                      routeCourierTrackingView(item.orderIdPK);
+                    }}
                     title="Confirm Pickup"
                     message="Are you sure you want to pick up this order?"
                     confirmText="Yes, pick up"
@@ -126,12 +206,12 @@ const OrderList = () => {
                         Order No.
                       </Text>
                       <Text style={{ fontSize: 18, fontWeight: "600" }}>
-                        #{item.orderId}
+                        #{item.orderIdPK}
                       </Text>
                     </View>
 
                     <TouchableOpacity
-                      onPress={() => toggleExpand(item.orderId)}
+                      onPress={() => toggleExpand(item.orderIdPK)}
                       activeOpacity={0.7}
                     >
                       {isExpanded ? (
@@ -179,7 +259,7 @@ const OrderList = () => {
                           </View>
 
                           <Text style={{ color: "#555", marginLeft: 28 }}>
-                            {item.locationBought}
+                            {item.request}
                           </Text>
                         </View>
 
@@ -193,7 +273,7 @@ const OrderList = () => {
                             gap: 10,
                           }}
                         >
-                          <Text>{item.specification}</Text>
+                          <Text> {item.request}</Text>
                         </View>
                       </View>
 
@@ -216,7 +296,7 @@ const OrderList = () => {
                             marginTop: 6,
                           }}
                         >
-                          <Text>{item.instructions}</Text>
+                          <Text>{item.deliveryDetailsDTO.deliveryNotes}</Text>
                         </View>
                       </View>
 
@@ -254,7 +334,7 @@ const OrderList = () => {
                               lineHeight: 20,
                             }}
                           >
-                            {item.placeDelivered}
+                            yawa
                           </Text>
                         </View>
 
@@ -281,7 +361,7 @@ const OrderList = () => {
                             }}
                           >
                             <Text style={{ fontWeight: "600" }}>
-                              {item.fee}
+                              {item.paymentsResponseDTO.itemsFee}
                             </Text>
                           </View>
                         </View>
