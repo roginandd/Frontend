@@ -1,6 +1,7 @@
 // api/dto/response/auth.response.dto.ts
 
-import { Role } from "react-native";
+import { Role } from "@/types/types";
+
 
 // ---------------------------------------------------------
 // ENUMS (mirror from PasabuyAPI.Enums)
@@ -53,7 +54,7 @@ export interface UserResponseDTO {
   totalDeliveries: number;
   createdAt: string; // DateTime -> ISO string
   updatedAt: string; // DateTime -> ISO string
-  currentRole: Roles;
+  currentRole: Role;
   verifiactionInfoDTO: VerificationInfoResponseDTO;
 }
 

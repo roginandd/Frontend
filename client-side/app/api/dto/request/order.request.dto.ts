@@ -11,3 +11,9 @@ export interface PostOrderRequestDTO {
   deliveryDistance: number;
   deliveryNotes: string;
 }
+
+export interface AcceptOrderRequestDTO {
+  courierId: number;
+  courierLatitude: number;
+  courierLongitude: number;
+}
