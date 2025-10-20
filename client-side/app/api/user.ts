@@ -1,25 +1,22 @@
 import axios from "axios";
-import {
-  SignInRequestDTO,
-  UserRequestDTO,
-} from "./dto/request/auth.request.dto";
-import {
-  TokenResponseDTO,
-  UserResponseDTO,
-} from "./dto/response/auth.response.dto";
-import { Platform } from "react-native";
 import { API_BASE_URL } from "./config";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { UserRequestDTO } from "./dto/request/auth.request.dto";
+import { UserResponseDTO } from "./dto/response/auth.response.dto";
 import { useAuthStore } from "./store/auth_store";
+import { Role } from "@/types/types";
 
-const getMimeType = (filename: string) => {
-  const ext = filename.split(".").pop()?.toLowerCase();
-  switch (ext) {
+export const getMimeType = (path: string): string => {
+  if (!path) return "application/octet-stream";
+
+  const extension = path.split(".").pop()?.toLowerCase();
+  switch (extension) {
     case "jpg":
     case "jpeg":
       return "image/jpeg";
     case "png":
       return "image/png";
+    case "heic":
+      return "image/heic";
     default:
       return "application/octet-stream";
   }
@@ -66,7 +63,7 @@ export const createUser = async (
   console.log(`URL: ${BASE_URL}`);
   try {
     const response = await axios.post<UserResponseDTO>(
-      `${BASE_URL}`, // ✅ Correct endpoint for user creation
+      `${API_BASE_URL}/Authentication/register`, // ✅ Correct endpoint for user creation
       formData,
       {
         headers: {
@@ -85,7 +82,6 @@ export const createUser = async (
 
 export const getCurrentProfile = async (): Promise<UserResponseDTO> => {
   try {
-    // get the current token
     const authToken = useAuthStore.getState().token;
 
     if (!authToken) {
@@ -102,7 +98,72 @@ export const getCurrentProfile = async (): Promise<UserResponseDTO> => {
     console.log("✅ Profile retrieved:", response.data);
     return response.data;
   } catch (err: any) {
-    console.error("❌ Failed to fetch profile:", err);
-    throw new Error(err.response?.data || "Failed to fetch profile");
+    const status = err?.response?.status;
+    const data = err?.response?.data;
+    const msg = data?.message;
+
+    console.error("❌ [acceptOrder] Request Failed", {
+      url: err?.config?.url,
+      method: err?.config?.method?.toUpperCase(),
+      status,
+      message: msg,
+      data,
+      timestamp: new Date().toISOString(),
+    });
+    throw err;
+  }
+};
+
+export const changeRole = async (): Promise<UserResponseDTO> => {
+  try {
+    const { token, user } = useAuthStore.getState();
+    if (!user) throw new Error("User not found in store.");
+
+    let targetRole: Role;
+
+    switch (user.currentRole) {
+      case Role.COURIER:
+        targetRole = Role.CUSTOMER;
+        break;
+      case Role.CUSTOMER:
+        targetRole = Role.COURIER;
+        break;
+      default:
+        throw new Error("Invalid current role");
+    }
+
+    console.log("🔁 Changing role to:", targetRole);
+
+    const response = await axios.patch(
+      `${BASE_URL}/change/role`,
+      targetRole,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log("✅ Role changed on server:", response.data);
+
+    const updatedUser = await getCurrentProfile();
+    useAuthStore.setState({ user: updatedUser });
+
+    console.log("🧭 Refreshed user profile:", updatedUser);
+
+    return updatedUser;
+  } catch (err: any) {
+    const status = err?.response?.status;
+    const data = err?.response?.data;
+    const msg = data?.message || `Failed to change user role.`;
+    console.error("❌ [changeRole] Request Failed", {
+      url: err?.config?.url,
+      method: err?.config?.method?.toUpperCase(),
+      status,
+      message: msg,
+      data,
+    });
+    throw new Error(`${msg} (HTTP ${status ?? "Unknown"})`);
   }
 };

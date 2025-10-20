@@ -24,6 +24,8 @@ import LocationBlueIcon from "@/components/svg/LocationBlueIcon";
 import PickIcon from "@/components/svg/PickIcon";
 import ConfirmPickupModal from "@/components/modals/ConfirmDeliver";
 import CancelDeliver from "@/components/modals/CancelDeliver";
+import { getOrderById } from "../api/orders";
+import { OrderResponseDTO } from "../api/dto/response/auth.response.dto";
 
 const { height } = Dimensions.get("window");
 
@@ -32,7 +34,9 @@ const CourierTrackingView = () => {
   const expandedHeight = height * 0.6;
   const animatedHeight = useRef(new Animated.Value(collapsedHeight)).current;
 
-  const [orderDetails, setOrderDetails] = useState<Order | null>(null);
+  const [orderDetails, setOrderDetails] = useState<OrderResponseDTO | null>(
+    null
+  );
   const [expanded, setExpanded] = useState(false);
 
   const [showConfirm, setShowConfirm] = useState(false);
@@ -41,9 +45,27 @@ const CourierTrackingView = () => {
   const route = useRoute<CourierTrackingViewRouteProp>();
   const { orderId } = route.params;
 
+  const fetchOrderById = async () => {
+    try {
+      const order = await getOrderById(orderId);
+      setOrderDetails(order);
+
+      return order;
+    } catch (error) {
+      console.error("Failed to fetch order:", error);
+    }
+  };
+
   useEffect(() => {
-    const foundOrder = orders.find((order) => order.orderId === orderId);
-    if (foundOrder) setOrderDetails(foundOrder);
+    (async () => {
+      const foundOrder = await fetchOrderById();
+
+      if (foundOrder) {
+        setOrderDetails(foundOrder);
+
+        console.log("Fetched order details:", foundOrder);
+      }
+    })();
   }, [orderId]);
 
   const panResponder = useRef(
@@ -108,8 +130,6 @@ const CourierTrackingView = () => {
     { latitude: 10.2951, longitude: 123.8992 },
     { latitude: 10.2923, longitude: 123.8999 },
   ];
-
-  const user = orderDetails.user;
 
   const triggerConfirmPickup = () => {
     setShowConfirm(true);
@@ -246,7 +266,7 @@ const CourierTrackingView = () => {
                 <Text
                   style={{ fontWeight: "700", fontSize: 18, color: "#111" }}
                 >
-                  {user.firstName} {user.lastName}
+                  boang
                 </Text>
               </View>
 
@@ -283,7 +303,7 @@ const CourierTrackingView = () => {
                     marginTop: 2,
                   }}
                 >
-                  {orderDetails.placeDelivered}
+                  static
                 </Text>
               </View>
             </View>
@@ -331,7 +351,7 @@ const CourierTrackingView = () => {
                       </View>
 
                       <Text style={{ color: "#555", marginLeft: 28 }}>
-                        {orderDetails.locationBought}
+                        static
                       </Text>
                     </View>
 
@@ -351,7 +371,7 @@ const CourierTrackingView = () => {
                         Order No.
                       </Text>
                       <Text style={{ color: "#555" }}>
-                        #{orderDetails.orderId}
+                        #{orderDetails.orderIdPK}
                       </Text>
                     </View>
                   </View>
@@ -366,7 +386,7 @@ const CourierTrackingView = () => {
                       gap: 10,
                     }}
                   >
-                    <Text>{orderDetails.specification}</Text>
+                    <Text>{orderDetails.request}</Text>
                   </View>
                 </View>
 
@@ -389,7 +409,7 @@ const CourierTrackingView = () => {
                       marginTop: 6,
                     }}
                   >
-                    <Text>{orderDetails.instructions}</Text>
+                    <Text>{orderDetails.deliveryDetailsDTO.deliveryNotes}</Text>
                   </View>
                 </View>
 
@@ -425,7 +445,7 @@ const CourierTrackingView = () => {
                         lineHeight: 20,
                       }}
                     >
-                      {orderDetails.placeDelivered}
+                      static
                     </Text>
                   </View>
 
@@ -452,7 +472,7 @@ const CourierTrackingView = () => {
                       }}
                     >
                       <Text style={{ fontWeight: "600" }}>
-                        {orderDetails.fee}
+                        {orderDetails.paymentsResponseDTO.itemsFee}
                       </Text>
                     </View>
                   </View>

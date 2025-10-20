@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Modal, Text, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { Button } from "@/components/Button"; // adjust import path
-import UpdateInsuranceIcon from "./svg/UpdateInsuranceIcon";
-import NextArrowIcon from "./svg/NextArrowIcon";
-import { useNavigation } from "@react-navigation/native";
-import { User } from "@/types/interfaces";
-import ConfirmLogout from "./modals/ConfirmLogout";
 import { UserResponseDTO } from "@/app/api/dto/response/auth.response.dto";
 import { useAuthStore } from "@/app/api/store/auth_store";
+import { Button } from "@/components/Button"; // adjust import path
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
+import { View } from "react-native";
+import ConfirmLogout from "./modals/ConfirmLogout";
+import NextArrowIcon from "./svg/NextArrowIcon";
+import UpdateInsuranceIcon from "./svg/UpdateInsuranceIcon";
 
 type ProfileProp = {
   users: UserResponseDTO;
@@ -19,10 +18,6 @@ const ProfileButtons = ({ users }: ProfileProp) => {
   const [logoutModal, setLogoutModal] = useState<boolean>(false);
 
   const { logout, user } = useAuthStore();
-
-  useEffect(() => {
-    console.log(`NEW USER: ${JSON.stringify(user)}`);
-  }, [user]);
 
   return (
     <View style={{ marginTop: 40, gap: 30 }}>
