@@ -985,7 +985,6 @@ const CustomerTrackingView = () => {
                     width: "100%",
                   }}
                 >
-                  <EditOrder height={iconSize(64)} width={iconSize(64)} />
                   {/* Disable cancel if payment is confirmed */}
                   <TouchableOpacity onPress={() => setShowCancel(true)}>
                     <CancelOrder height={iconSize(64)} width={iconSize(64)} />

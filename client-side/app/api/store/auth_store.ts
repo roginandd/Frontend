@@ -35,13 +35,18 @@ export const useAuthStore = create<AuthState>()(
       isCourier: false,
 
       login: async (token: string) => {
+        // 🔹 Check if token is already set and valid to avoid re-fetching
+        
+
+        const currentToken = get().token;
+        const isTokenAlreadySet = currentToken === token;
+
         const isExpired = (() => {
           try {
             const decoded: DecodedToken = jwtDecode(token);
             console.log(`JWT TOKEN: `, token);
             console.log("Decoded Token:", JSON.stringify(decoded));
 
-            console.log(`Token: ${get().token}`);
             if (!decoded.exp) return false;
             const now = Date.now() / 1000;
             return decoded.exp < now;
@@ -56,14 +61,17 @@ export const useAuthStore = create<AuthState>()(
           return;
         }
 
-        set({ token, isAuthenticated: true });
+        // 🔹 Only set token and fetch profile if it's a new login (token changed)
+        if (!isTokenAlreadySet) {
+          set({ token, isAuthenticated: true });
 
-        try {
-          const user = await getCurrentProfile();
-          const isCourier = user.currentRole === 1;
-          set({ user, isCourier });
-        } catch (err) {
-          console.error("Failed to fetch profile after login:", err);
+          try {
+            const user = await getCurrentProfile();
+            const isCourier = user.currentRole === 1;
+            set({ user, isCourier });
+          } catch (err) {
+            console.error("Failed to fetch profile after login:", err);
+          }
         }
       },
 

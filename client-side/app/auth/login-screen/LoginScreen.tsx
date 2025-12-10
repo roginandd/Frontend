@@ -31,16 +31,22 @@ const LoginScreen = () => {
       return;
     }
 
+    // 🔹 Prevent multiple simultaneous login attempts
+    if (loading) {
+      console.warn("Login already in progress...");
+      return;
+    }
+
     setLoading(true);
     try {
       // 🔹 Call API to get token
       const token = await Login({ username: email, password });
 
-      // 🔹 Save token & user profile
+      // 🔹 Save token & user profile (only calls getCurrentProfile if token is new)
       await login(token);
 
       const { user } = useAuthStore.getState();
-      if (user?.verifiactionInfoDTO.verificationInfoStatus !== 2) {
+      if (user?.verifiactionInfoDTO.verificationInfoStatus !== 1) {
         navigation.navigate("Unverified" as never);
         return;
       }
@@ -90,14 +96,14 @@ const LoginScreen = () => {
           {/* Email Input */}
           <View style={{ marginTop: 40 }}>
             <Text style={{ fontSize: 14, color: "#000", marginBottom: 8 }}>
-              Email
+              Username
             </Text>
             <TextInput
               value={email}
               onChangeText={setEmail}
-              keyboardType="email-address"
+              keyboardType="default"
               autoCapitalize="none"
-              placeholder="your@email.com"
+              placeholder="yourlogin"
               style={{
                 borderWidth: 1,
                 borderColor: "#545EE1",

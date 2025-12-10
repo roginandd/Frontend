@@ -57,7 +57,6 @@ export default function App() {
           return;
         }
 
-        await AsyncStorage.clear();
         // 🔹 Returning user
         const valid = checkTokenValidity();
         if (!valid) {

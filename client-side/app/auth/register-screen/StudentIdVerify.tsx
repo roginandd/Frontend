@@ -312,7 +312,7 @@ const StudentIdVerify = () => {
         }}
       >
         <Button
-          title="Sign up"
+          title="Next"
           fontSize={SCREEN_WIDTH * 0.045}
           fontWeight="bold"
           padding={SCREEN_HEIGHT * 0.018}

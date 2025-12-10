@@ -19,9 +19,10 @@ export const createUser = async (
   formData.append("FirstName", userRequest.firstName);
   formData.append("MiddleName", userRequest.middleName ?? "");
   formData.append("LastName", userRequest.lastName);
-  formData.append("Phone", `09104146278${userRequest.firstName}`);
   formData.append("Birthday", userRequest.birthday);
+  formData.append("Phone", `0910414627${userRequest.firstName.length}`);
 
+  console.log(`GIATAY: ${JSON.stringify(formData)}`);
   if (userRequest.frontId) {
     formData.append("FrontId", {
       uri: userRequest.frontId.uri,
